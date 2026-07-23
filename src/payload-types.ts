@@ -156,13 +156,14 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Each article is one piece. Tick "Sold" once it is gone.
+ * Each article is one piece. Tick "Sold" once it is gone. Drag rows to change the order on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
   id: number;
+  _order?: string | null;
   title: string;
   /**
    * First photo is the cover. Add as many as you like.
@@ -188,6 +189,14 @@ export interface Product {
    * Tick when the article is sold.
    */
   sold?: boolean | null;
+  /**
+   * Pins this article to the top of the homepage.
+   */
+  featured?: boolean | null;
+  /**
+   * Keeps the article in the admin but takes it off the website.
+   */
+  hidden?: boolean | null;
   condition?: ('new-with-tags' | 'like-new' | 'good' | 'fair') | null;
   /**
    * e.g. M, 32, 42 EU
@@ -238,46 +247,6 @@ export interface Media {
   focalY?: number | null;
   sizes?: {
     thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    square?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    small?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    medium?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    large?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    xlarge?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -1104,6 +1073,7 @@ export interface PayloadMigration {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   photos?: T;
   video?: T;
@@ -1111,6 +1081,8 @@ export interface ProductsSelect<T extends boolean = true> {
   price?: T;
   originalPrice?: T;
   sold?: T;
+  featured?: T;
+  hidden?: T;
   condition?: T;
   size?: T;
   category?: T;
@@ -1308,56 +1280,6 @@ export interface MediaSelect<T extends boolean = true> {
     | T
     | {
         thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        square?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        small?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        medium?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        large?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        xlarge?:
           | T
           | {
               url?: T;

@@ -62,7 +62,10 @@ export default async function ShopPage() {
       collection: 'products',
       depth: 1,
       limit: 100,
-      sort: ['sold', '-createdAt'],
+      sort: ['sold', '-featured', '_order'],
+      where: {
+        hidden: { not_equals: true },
+      },
     }),
     getCachedGlobal('store-settings', 1)() as Promise<StoreSetting>,
   ])

@@ -16,9 +16,11 @@ export const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'price', 'sold', 'updatedAt'],
-    description: 'Each article is one piece. Tick "Sold" once it is gone.',
+    defaultColumns: ['title', 'price', 'sold', 'featured', 'updatedAt'],
+    description:
+      'Each article is one piece. Tick "Sold" once it is gone. Drag rows to change the order on the website.',
   },
+  orderable: true,
   fields: [
     {
       name: 'title',
@@ -81,6 +83,26 @@ export const Products: CollectionConfig = {
       },
     },
     {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Show first',
+      admin: {
+        position: 'sidebar',
+        description: 'Pins this article to the top of the homepage.',
+      },
+    },
+    {
+      name: 'hidden',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Hide from website',
+      admin: {
+        position: 'sidebar',
+        description: 'Keeps the article in the admin but takes it off the website.',
+      },
+    },
+    {
       name: 'condition',
       type: 'select',
       options: [
@@ -128,6 +150,26 @@ export const Products: CollectionConfig = {
         if (!context.disableRevalidate) {
           revalidatePath('/')
           revalidatePath(`/products/${doc.slug}`)
+        }
+        return doc
+      },
+      // Free up storage: when an article is deleted, delete its photos/video too
+      async ({ doc, req }) => {
+        const ids = [
+          ...(Array.isArray(doc.photos)
+            ? doc.photos.map((p: unknown) => (typeof p === 'object' && p !== null ? (p as { id: number }).id : p))
+            : []),
+          ...(doc.video
+            ? [typeof doc.video === 'object' && doc.video !== null ? (doc.video as { id: number }).id : doc.video]
+            : []),
+        ].filter((id): id is number => typeof id === 'number')
+
+        for (const id of ids) {
+          try {
+            await req.payload.delete({ collection: 'media', id, req })
+          } catch {
+            // media may already be gone or shared — never block the product delete
+          }
         }
         return doc
       },

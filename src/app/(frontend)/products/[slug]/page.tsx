@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: Args) {
   const { slug } = await params
   const { product, settings } = await queryProduct(slug)
 
-  if (!product) notFound()
+  if (!product || product.hidden) notFound()
 
   const photos = (Array.isArray(product.photos) ? product.photos : []).filter(
     (p): p is MediaType => typeof p === 'object' && p !== null,
