@@ -63,6 +63,24 @@ export const StoreSettings: GlobalConfig = {
       },
     },
     {
+      name: 'heroImageMobile',
+      type: 'upload',
+      relationTo: 'media',
+      filterOptions: { mimeType: { contains: 'image' } },
+      admin: {
+        description: 'Portrait version of the cover photo shown on phones (optional).',
+      },
+    },
+    {
+      name: 'heroImageAltMobile',
+      type: 'upload',
+      relationTo: 'media',
+      filterOptions: { mimeType: { contains: 'image' } },
+      admin: {
+        description: 'Portrait version of the second cover photo shown on phones (optional).',
+      },
+    },
+    {
       name: 'lookbookImages',
       type: 'upload',
       relationTo: 'media',

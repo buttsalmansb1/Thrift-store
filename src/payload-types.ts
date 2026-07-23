@@ -1707,6 +1707,14 @@ export interface StoreSetting {
    */
   heroImageAlt?: (number | null) | Media;
   /**
+   * Portrait version of the cover photo shown on phones (optional).
+   */
+  heroImageMobile?: (number | null) | Media;
+  /**
+   * Portrait version of the second cover photo shown on phones (optional).
+   */
+  heroImageAltMobile?: (number | null) | Media;
+  /**
    * Up to 3 style photos shown in "The Edit" section on the homepage.
    */
   lookbookImages?: (number | Media)[] | null;
@@ -1787,6 +1795,8 @@ export interface StoreSettingsSelect<T extends boolean = true> {
   instagramUrl?: T;
   heroImage?: T;
   heroImageAlt?: T;
+  heroImageMobile?: T;
+  heroImageAltMobile?: T;
   lookbookImages?: T;
   whatsappNumber?: T;
   easypaisaName?: T;

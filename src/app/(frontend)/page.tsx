@@ -76,6 +76,10 @@ export default async function ShopPage() {
 
   const heroImage = typeof settings?.heroImage === 'object' ? settings.heroImage : null
   const heroImageAlt = typeof settings?.heroImageAlt === 'object' ? settings.heroImageAlt : null
+  const heroImageMobile =
+    typeof settings?.heroImageMobile === 'object' ? settings.heroImageMobile : heroImage
+  const heroImageAltMobile =
+    typeof settings?.heroImageAltMobile === 'object' ? settings.heroImageAltMobile : heroImageAlt
   const lookbook = (Array.isArray(settings?.lookbookImages) ? settings.lookbookImages : []).filter(
     (img) => typeof img === 'object' && img !== null,
   )
@@ -88,23 +92,50 @@ export default async function ShopPage() {
           heroImage ? '' : 'bg-muted/30'
         }`}
       >
+        {/* Desktop: wide cover, cropped toward the top */}
         {heroImage && (
-          <Media
-            fill
-            htmlElement={null}
-            imgClassName="object-cover object-[center_18%]"
-            priority
-            resource={heroImage}
-            size="100vw"
-          />
+          <div className="absolute inset-0 hidden lg:block">
+            <Media
+              fill
+              htmlElement={null}
+              imgClassName="object-cover object-[center_18%]"
+              priority
+              resource={heroImage}
+              size="100vw"
+            />
+          </div>
         )}
         {heroImage && heroImageAlt && (
-          <div className="hero-fade absolute inset-0">
+          <div className="hero-fade absolute inset-0 hidden lg:block">
             <Media
               fill
               htmlElement={null}
               imgClassName="object-cover object-[center_18%]"
               resource={heroImageAlt}
+              size="100vw"
+            />
+          </div>
+        )}
+        {/* Phones: portrait crop so nobody gets cut off */}
+        {heroImageMobile && (
+          <div className="absolute inset-0 lg:hidden">
+            <Media
+              fill
+              htmlElement={null}
+              imgClassName="object-cover object-top"
+              priority
+              resource={heroImageMobile}
+              size="100vw"
+            />
+          </div>
+        )}
+        {heroImageMobile && heroImageAltMobile && (
+          <div className="hero-fade absolute inset-0 lg:hidden">
+            <Media
+              fill
+              htmlElement={null}
+              imgClassName="object-cover object-top"
+              resource={heroImageAltMobile}
               size="100vw"
             />
           </div>
