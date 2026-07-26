@@ -40,7 +40,7 @@ export const CODOrderForm: React.FC<Props> = ({
     setForm((f) => ({ ...f, [key]: e.target.value }))
 
   const waConfirmHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    `Assalam o Alaikum! I just placed a COD order on the website:\n\n${productTitle}\nTotal: PKR ${total.toLocaleString('en-PK')} (incl. Rs ${deliveryCharge} delivery)\nName: ${form.customerName}\nPhone: ${form.phone}\nCity: ${form.city}\n${productUrl}`,
+    `Assalam o Alaikum! I just placed a COD order on the website:\n\n*${productTitle}*\nTotal: PKR ${total.toLocaleString('en-PK')} (incl. Rs ${deliveryCharge} delivery)\n\nName: ${form.customerName}\nPhone: ${form.phone}\nAddress: ${form.address}\nCity: ${form.city}${form.postalCode ? `\nPostal code: ${form.postalCode}` : ''}\n\n${productUrl}`,
   )}`
 
   const submit = async (e: React.FormEvent) => {
