@@ -9,6 +9,7 @@ import React from 'react'
 
 import type { Media as MediaType, StoreSetting } from '@/payload-types'
 
+import { CODOrderForm } from '@/components/CODOrderForm'
 import { ProductGallery } from '@/components/ProductGallery'
 import { WhatsAppIcon } from '@/components/store/WhatsAppIcon'
 import { getCachedGlobal } from '@/utilities/getGlobals'
@@ -81,9 +82,10 @@ export default async function ProductPage({ params }: Args) {
   const productUrl = `${getServerSideURL()}/products/${product.slug}`
   const waNumber = (settings?.whatsappNumber ?? '').replace(/[^\d]/g, '')
   const waText = encodeURIComponent(
-    `Assalam o Alaikum! I want to buy:\n${product.title} — PKR ${product.price.toLocaleString('en-PK')}\n${productUrl}`,
+    `Assalam o Alaikum! I want to buy this article:\n\n*${product.title}*\nPrice: PKR ${product.price.toLocaleString('en-PK')}${product.size ? `\nSize: ${product.size}` : ''}\n\n${productUrl}`,
   )
   const waHref = `https://wa.me/${waNumber}?text=${waText}`
+  const deliveryCharge = typeof settings?.deliveryCharge === 'number' ? settings.deliveryCharge : 300
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -209,6 +211,17 @@ export default async function ProductPage({ params }: Args) {
               >
                 <WhatsAppIcon className="h-5 w-5" /> Chat to Buy on WhatsApp
               </a>
+
+              {settings?.codAvailable && (
+                <CODOrderForm
+                  deliveryCharge={deliveryCharge}
+                  price={product.price}
+                  productId={product.id}
+                  productTitle={product.title}
+                  productUrl={productUrl}
+                  whatsappNumber={waNumber}
+                />
+              )}
 
               <div className="mt-6 space-y-3 border border-border p-5 text-sm">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">

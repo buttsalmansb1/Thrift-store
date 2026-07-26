@@ -8,6 +8,7 @@ import React from 'react'
 
 import type { StoreSetting } from '@/payload-types'
 
+import { FilterableGrid } from '@/components/FilterableGrid'
 import { Media } from '@/components/Media'
 import { ProductCard } from '@/components/ProductCard'
 import { Reveal } from '@/components/store/Reveal'
@@ -222,13 +223,7 @@ export default async function ShopPage() {
             All sold out — new drop coming soon. Follow us on WhatsApp for first dibs.
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-6">
-            {available.map((product, i) => (
-              <Reveal delay={(i % 4) * 0.06} key={product.id}>
-                <ProductCard priority={i < 4} product={product} />
-              </Reveal>
-            ))}
-          </div>
+          <FilterableGrid products={available} />
         )}
       </section>
 

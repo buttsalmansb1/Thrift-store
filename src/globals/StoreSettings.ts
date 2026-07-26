@@ -122,6 +122,15 @@ export const StoreSettings: GlobalConfig = {
       label: 'Cash on Delivery available',
     },
     {
+      name: 'deliveryCharge',
+      type: 'number',
+      defaultValue: 300,
+      min: 0,
+      admin: {
+        description: 'Flat delivery charge in PKR added to COD orders.',
+      },
+    },
+    {
       name: 'paymentNote',
       type: 'textarea',
       defaultValue:

@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     products: Product;
+    orders: Order;
     pages: Page;
     posts: Post;
     media: Media;
@@ -91,6 +92,7 @@ export interface Config {
   };
   collectionsSelect: {
     products: ProductsSelect<false> | ProductsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -311,6 +313,29 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Cash on Delivery orders placed on the website. Confirm on WhatsApp, then update the status.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  orderLabel?: string | null;
+  product: number | Product;
+  productTitle: string;
+  customerName: string;
+  phone: string;
+  address: string;
+  city: string;
+  postalCode?: string | null;
+  itemPrice: number;
+  deliveryCharge: number;
+  total: number;
+  status?: ('new' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -987,6 +1012,10 @@ export interface PayloadLockedDocument {
         value: number | Product;
       } | null)
     | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -1088,6 +1117,26 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   generateSlug?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  orderLabel?: T;
+  product?: T;
+  productTitle?: T;
+  customerName?: T;
+  phone?: T;
+  address?: T;
+  city?: T;
+  postalCode?: T;
+  itemPrice?: T;
+  deliveryCharge?: T;
+  total?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1732,6 +1781,10 @@ export interface StoreSetting {
   easypaisaNumber?: string | null;
   codAvailable?: boolean | null;
   /**
+   * Flat delivery charge in PKR added to COD orders.
+   */
+  deliveryCharge?: number | null;
+  /**
    * Shown under the payment details on every product page.
    */
   paymentNote?: string | null;
@@ -1802,6 +1855,7 @@ export interface StoreSettingsSelect<T extends boolean = true> {
   easypaisaName?: T;
   easypaisaNumber?: T;
   codAvailable?: T;
+  deliveryCharge?: T;
   paymentNote?: T;
   updatedAt?: T;
   createdAt?: T;
