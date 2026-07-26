@@ -13,6 +13,7 @@ export const Users: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['name', 'email'],
+    hidden: true, // password/account changes still available via the avatar menu → Account
     useAsTitle: 'name',
   },
   auth: {

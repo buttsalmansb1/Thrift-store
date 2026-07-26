@@ -13,7 +13,7 @@ export const Orders: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'orderLabel',
-    defaultColumns: ['orderLabel', 'phone', 'status', 'total', 'createdAt'],
+    defaultColumns: ['orderLabel', 'status', 'total', 'createdAt'],
     description: 'Cash on Delivery orders placed on the website. Confirm on WhatsApp, then update the status.',
   },
   fields: [

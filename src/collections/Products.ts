@@ -16,7 +16,7 @@ export const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'price', 'sold', 'featured', 'updatedAt'],
+    defaultColumns: ['title', 'price', 'sold'],
     description:
       'Each article is one piece. Tick "Sold" once it is gone. Drag rows to change the order on the website.',
   },
