@@ -1,0 +1,6 @@
+.env
+.env.local
+payload.db
+payload.db-shm
+payload.db-wal
+public/media
